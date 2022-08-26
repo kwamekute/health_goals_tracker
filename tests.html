@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        //        function aboveFreezing(Temps) {
+        //This function takes arrays of foods and colors and returns the non-red foods
+
+        // const tempsAboveFreezing = Temps.filter(function (Temp) {
+        //     return Temp.color !== 'Red';
+        // })
+        // return tempsAboveFreezing;
+        // }
+
+        // cart operations
+        // let foodList = [{
+        //     item: 'Rice',
+        //     price: 20
+        // },
+        // {
+        //     item: 'Beans',
+        //     price: 30
+        // }];
+
+        // console.log(foodList.keys());
+
+        // function createCart() {
+        //     let total = 0;
+
+        //     foodList.forEach(function (fooditem) {
+        //         const foodDiv = document.createElement('Div');
+        //         foodDiv.innerText = fooditem.item + ":  $" + fooditem.price;
+
+        //         const addButton = document.createElement("button");
+        //         addButton.innerText = "add";
+        //         addButton.onclick = function addToTotal() {
+        //             total = total + fooditem.price;
+        //             console.log(total);
+        //         };
+        //         foodDiv.appendChild(addButton);
+
+        //         receipt.appendChild(foodDiv);
+        //     })
+
+        //returns least number that is greater than or equal to 0
+        function min(numArr) {
+            let min = Infinity;
+
+            numArr.forEach(function (num) {
+                if (num < min && num >= 0) {
+                    min = num;
+
+                    console.log(num);
+                    console.log(min);
+
+                }
+            })
+
+            return min;
+        }
+
+        //remove the first two occurances of 'apple'
+        function pickApples(fruitArr) {
+
+            const pickedFruits = fruitArr.filter(function (fruit) {
+                if (fruit == 'apple') {
+                    return false;
+                }
+            })
+            return pickedFruits;
+
+        }
+    </script>
+</body>
+
+</html>

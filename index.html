@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="todo">
+            <h1>TODO</h1>
+            <div class="search">
+                <input id="list-item" type="text" placeholder="Enter Item">
+                <input id="due-date" type="date" placeholder="due date">
+                <button class="todoBtn" onclick="addTodo()">Add item</button>
+            </div>
+            <!-- <button id="doneBtn" onclick="addMore()">Add</button>
+            <button id="doneBtn" onclick="reduceByOne()">Subtract</button> -->
+            <ul id="list">
+            </ul>
+        </div>
+    </header>
+
+
+    <script>
+
+        //MODEL
+
+        // Store Todos
+        let todoJson;
+
+        const savedTodos = JSON.parse(localStorage.getItem('todos'));
+
+        if (Array.isArray(savedTodos)) {
+            todoJson = savedTodos;
+        } else {
+            todoJson = [{
+                title: "Default",
+                dueDate: 'Default',
+                id: "default"
+            }];
+        }
+
+
+        //Creates a todo
+        function saveTodo() {
+            localStorage.setItem('todos', JSON.stringify(todoJson));
+        }
+
+
+        function createTodo(todoItem, dueDate) {
+
+            const id = '' + new Date().getTime();
+
+            todoJson.push({
+                title: todoItem,
+                dueDate: dueDate,
+                id: id
+            });
+
+            saveTodo();
+        }
+
+        //Deletes a todo
+        function removeTodoItem(idToDelete) {
+            todoJson = todoJson.filter(function (todo) {
+                if (todo.id === idToDelete) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            });
+
+            saveTodo();
+        }
+        render();
+
+        //controller -> takes the data and passes it to the View
+        function addTodo() {
+
+            const todoItem = document.getElementById('list-item').value;
+            const dueDate = document.getElementById('due-date').value;
+
+            createTodo(todoItem, dueDate);
+
+            render();
+        }
+
+        //delete a todo item
+        function deleteTodo(event) {
+            const deleteItem = event.target;
+            const idToDelete = deleteItem.id;
+
+            removeTodoItem(idToDelete);
+
+            render();
+        }
+
+        //VIEW renders stuff 
+        function render() {
+            //reset the list
+            list.innerHTML = "";
+
+            todoJson.forEach(function (todo) {
+                const element = document.createElement('li');
+
+                element.innerText = todo.title + " - Due on: " + todo.dueDate;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Delete';
+                deleteButton.className = 'todoDeleteBtn';
+                deleteButton.onclick = deleteTodo;
+                deleteButton.id = todo.id;
+                element.appendChild(deleteButton);
+
+                list.appendChild(element);
+            })
+        }
+
+        let cartSummary = [];
+
+        //Takes data from forms and pushes to cart object
+        function addToCart() {
+
+
+            const productName = document.getElementById('pName').value;
+
+            const price = document.getElementById('pPrice').value;
+
+            const Quantity = document.getElementById('pQuantity').value;
+
+            cartSummary.push({
+                product: productName,
+                price: price,
+                quantity: Quantity
+            });
+            console.log(cartSummary);
+
+            cartTotal();
+        }
+
+        //loops through the object and calculates total price for each cart item
+        function cartTotal() {
+            let total = 0
+
+            cartSummary.forEach(function (cart) {
+                total = total + cart.quantity * cart.price;
+                console.log(total);
+            })
+        }
+
+        //displays the receipt
+        function displayReceipt() {
+
+            //displays summary for cart items
+            cartSummary.forEach(function (item) {
+                const receiptLine = document.createElement('p');
+                receiptLine.innerText = item.product + " $" + item.price
+                    + " * " + item.quantity + " = " + "$" + item.price * item.quantity;
+                receipt.appendChild(receiptLine);
+            })
+
+
+            //displays grand total
+            let total = 0
+
+            cartSummary.forEach(function (cart) {
+                total = total + cart.quantity * cart.price;
+            });
+
+            const totalLine = document.createElement('p');
+            totalLine.innerText = 'Cart total = $' + total;
+            receipt.appendChild(totalLine);
+        }
+
+    </script>
+</body>
+
+</html>
